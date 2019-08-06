@@ -1,10 +1,12 @@
-import 'package:biblioteca_virtualbook_app/widgets/alert.dart';
-import 'package:flutter/material.dart';
 import 'package:biblioteca_virtualbook_app/modelos/crear_usuario.dart';
 import 'package:biblioteca_virtualbook_app/widgets/text_field.dart';
-import 'dart:async';
-import 'dart:convert';
+import 'package:biblioteca_virtualbook_app/widgets/alert.dart';
+import "package:image_picker/image_picker.dart";
 import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'dart:async';
+import 'dart:io';
 
 class CrearCuenta extends StatefulWidget {
 
@@ -23,6 +25,18 @@ class _CrearCuentaState extends State<CrearCuenta>{
   TextEditingController nameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController countryController = TextEditingController();
+  File _image;
+
+  void piker()async{
+    File img = await ImagePicker.pickImage(source: ImageSource.gallery);
+    print(img);
+    if(img != null){
+      _image = img;
+      setState(() {
+
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +99,20 @@ class _CrearCuentaState extends State<CrearCuenta>{
               child: null,
             ),
 
+            RaisedButton(
+              color: Colors.white,
+              onPressed: piker,
+              child: Icon(Icons.camera),
+            ),
+
+            _image == null
+            ? Text('No image selected.')
+            : Image.file(_image),
+
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: null,
+            ),
             // RaisedButton(
             //   shape: RoundedRectangleBorder(
             //     borderRadius: BorderRadius.circular(24),
@@ -112,11 +140,12 @@ class _CrearCuentaState extends State<CrearCuenta>{
                   padding: EdgeInsets.all(12),
                   color: Colors.white,
                   onPressed: () async{
+                    
                     CreateUser newUser = new CreateUser(
                       password1:passwordController.text, password2: passwordConfirmationController.text, email:emailController.text, 
                       country:countryController.text, firstName:nameController.text,lastName: lastNameController.text
                     );
-                    await createUser("https://virtualbook-backend.herokuapp.com/api/accounts/register/",body: newUser.toMap());
+                    await createUser(context,"https://virtualbook-backend.herokuapp.com/api/accounts/register/",body: newUser.toMap());
                   },
                 )
               )
@@ -128,7 +157,7 @@ class _CrearCuentaState extends State<CrearCuenta>{
     );
   }
 
-  Future<String> createUser(String url, {Map body}) async {
+  Future<String> createUser(BuildContext context,String url, {Map body}) async {
     return http.put(url, body: body).then((http.Response response){
       final int statusCode = response.statusCode;
   
