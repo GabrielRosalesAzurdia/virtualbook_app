@@ -191,7 +191,7 @@ class _ListaLibrosState extends State<ListaLibros> {
                               ),
                               padding: EdgeInsets.all(12),
                               color: Colors.lightBlueAccent,
-                              child: Icon(Icons.add_box),
+                              child: Icon(Icons.remove_red_eye),
                               onPressed: (){
                                 navigateToBookDetails(
                                   name: data[index]["name"],
