@@ -106,17 +106,18 @@ class _ListaRentadosState extends State<ListaRentados> {
                     Padding(padding: EdgeInsets.only(left: 30.0) ,child: Column(
                       children: <Widget>[
 
-                        RaisedButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                          padding: EdgeInsets.all(12),
-                          color: Colors.lightBlueAccent,
-                          child: Icon(Icons.delete),
-                          onPressed: (){
-                            print("preciono eliminar elemento");
-                            deleteElementRentados(data[index]["lista_rentados_id"]);
-                          },
+                        Container(
+                          decoration: new BoxDecoration(border: new Border.all(color: Colors.black)),
+                          child:RaisedButton(
+                            elevation: 0.0,
+                            padding: EdgeInsets.all(12),
+                            color: Colors.white,
+                            child: Icon(Icons.delete),
+                            onPressed: (){
+                              print("preciono eliminar elemento");
+                              deleteElementRentados(data[index]["lista_rentados_id"]);
+                            },
+                          )
                         ),
 
                         Padding(

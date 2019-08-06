@@ -60,6 +60,7 @@ class _PantallaDeInicioSecionState extends State<PantallaDeInicioSecion>{
     return Scaffold(
       appBar: AppBar(
         title: Center(child: Text("Virtualbook"),), 
+        
       ),
       body: Container(
         padding: EdgeInsets.all(20),
@@ -99,36 +100,43 @@ class _PantallaDeInicioSecionState extends State<PantallaDeInicioSecion>{
           //   )
           // ),
 
-          Container(padding:EdgeInsets.only(top:20.0,bottom: 20.0), width: 320.0,child:
-            RaisedButton(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(24),
-              ),
-              child: Text("Crear Cuenta"),
-              padding: EdgeInsets.all(12),
-              color: Colors.white,
-              onPressed: (){
-                navigateCrearCuenta();
-              },
-          )),
+            Container(
+              padding:EdgeInsets.only(top:20.0,bottom: 20.0), 
+              width: 320.0,
+              child:Container(
+                decoration: new BoxDecoration(border: new Border.all(color: Colors.black)),
+                child:RaisedButton(
+                  elevation: 0.0,
+                  child: Text("Crear Cuenta"),
+                  padding: EdgeInsets.all(12),
+                  color: Colors.white,
+                  onPressed: (){
+                    navigateCrearCuenta();
+                  },
+                )
+              )
+            ),
 
-          Container( width: 320.0,child:
-            RaisedButton(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(24),
-              ),
-              child: Text("Entrar"),
-              padding: EdgeInsets.all(12),
-              color: Colors.lightBlueAccent,
-              onPressed: (){
-                if(emailController.text == "" && passwordController.text == ""){
-                  bookFlight(context,"La informacion es incorrecta","Porfavor revisa los datos");
-                }else{
-                  LoginUser usuarioActual = new LoginUser(email: emailController.text, password: passwordController.text);
-                  logindataUser(url,body:usuarioActual.toMap());
-                }
-              },
-            )),
+            Container( 
+              width: 320.0,
+              child:Container(
+                decoration: new BoxDecoration(border: new Border.all(color: Colors.black)),
+                child:RaisedButton(
+                  elevation: 0.0,
+                  child: Text("Entrar"),
+                  padding: EdgeInsets.all(12),
+                  color: Colors.white,
+                  onPressed: (){
+                    if(emailController.text == "" && passwordController.text == ""){
+                      bookFlight(context,"La informacion es incorrecta","Porfavor revisa los datos");
+                    }else{
+                      LoginUser usuarioActual = new LoginUser(email: emailController.text, password: passwordController.text);
+                      logindataUser(url,body:usuarioActual.toMap());
+                    }
+                  },
+                )
+              )
+            ),
 
           ],
         )),

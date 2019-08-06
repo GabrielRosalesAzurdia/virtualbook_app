@@ -101,22 +101,26 @@ class _CrearCuentaState extends State<CrearCuenta>{
             //   },
             // ),
 
-            Container(padding:EdgeInsets.only(bottom: 20.0), width: 320.0,child:
-            RaisedButton(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(24),
-              ),
-              child: Text("Crear"),
-              padding: EdgeInsets.all(12),
-              color: Colors.lightBlueAccent,
-              onPressed: () async{
-                CreateUser newUser = new CreateUser(
-                  password1:passwordController.text, password2: passwordConfirmationController.text, email:emailController.text, 
-                  country:countryController.text, firstName:nameController.text,lastName: lastNameController.text
-                );
-                await createUser("https://virtualbook-backend.herokuapp.com/api/accounts/register/",body: newUser.toMap());
-              },
-            )),
+            Container(
+              padding:EdgeInsets.only(bottom: 20.0), 
+              width: 320.0,
+              child: Container(
+                decoration: new BoxDecoration(border: new Border.all(color: Colors.black)),
+                child:RaisedButton(
+                  elevation: 0.0,
+                  child: Text("Crear"),
+                  padding: EdgeInsets.all(12),
+                  color: Colors.white,
+                  onPressed: () async{
+                    CreateUser newUser = new CreateUser(
+                      password1:passwordController.text, password2: passwordConfirmationController.text, email:emailController.text, 
+                      country:countryController.text, firstName:nameController.text,lastName: lastNameController.text
+                    );
+                    await createUser("https://virtualbook-backend.herokuapp.com/api/accounts/register/",body: newUser.toMap());
+                  },
+                )
+              )
+            ),
 
           ],
         )),

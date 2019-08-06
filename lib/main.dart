@@ -11,6 +11,7 @@ class MyApp extends StatelessWidget {
       debugShowMaterialGrid: false,
       debugShowCheckedModeBanner: false,
       title: "VirtualBook",
+      theme: ThemeData(primaryColor: Colors.white),
       home:PaginaBienvenida(),
     );
   }

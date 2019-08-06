@@ -156,23 +156,24 @@ class _LibrosDetailsState extends State<LibrosDetails> {
                 children: <Widget>[
 
                   Center (
-                    child:RaisedButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                      color: Colors.lightBlueAccent,
-                      child: Icon(Icons.shopping_cart),
-                      onPressed: ()async{
-                        print("preciono añadir a lista de rentados");
-                        var resultado = await addToRentados();
-                        if(resultado != "Funciono"){
-                          bookFlight(context,"Ha sucedido un error","Este libro ya esta en tu lista de rentados o a has superado el limite de 5 libros");
-                        }
-                        else{
-                          bookFlight(context,"Nice","Todo ha salido bien, Este libro esta en tu lista de Rentados");
-                        }         
-                      },
-                    ),
+                    child:Container(
+                      decoration: new BoxDecoration(border: new Border.all(color: Colors.black)),
+                      child:RaisedButton(
+                        elevation: 0.0,
+                        color: Colors.white,
+                        child: Icon(Icons.shopping_cart,color: Colors.black),
+                        onPressed: ()async{
+                          print("preciono añadir a lista de rentados");
+                          var resultado = await addToRentados();
+                          if(resultado != "Funciono"){
+                            bookFlight(context,"Ha sucedido un error","Este libro ya esta en tu lista de rentados o a has superado el limite de 5 libros");
+                          }
+                          else{
+                            bookFlight(context,"Nice","Todo ha salido bien, Este libro esta en tu lista de Rentados");
+                          }         
+                        },
+                      )
+                    )
                   ),
 
                   Padding(
@@ -182,23 +183,24 @@ class _LibrosDetailsState extends State<LibrosDetails> {
 
                   Center(
                     
-                    child:RaisedButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                      color: Colors.lightBlueAccent,
-                      child: Icon(Icons.bookmark),
-                      onPressed: ()async{
-                        print("preciono añadir a liste de deseos");
-                        var resultado = await addToDeseos();
-                        if(resultado == "Fallo"){
-                          bookFlight(context,"Ha sucedido un error","Este libro ya esta en tu lista de deseos o a pasado algo");
-                        }
-                        else{
-                          bookFlight(context,"Nice","Todo ha salido bien, Este libro esta en tu lista de deseos");
-                        }
-                      },
-                    ),
+                    child:Container(
+                      decoration: new BoxDecoration(border: new Border.all(color: Colors.black)),
+                      child:RaisedButton(
+                        elevation: 0.0,
+                        color: Colors.white,
+                        child: Icon(Icons.bookmark,color: Colors.black,),
+                        onPressed: ()async{
+                          print("preciono añadir a liste de deseos");
+                          var resultado = await addToDeseos();
+                          if(resultado == "Fallo"){
+                            bookFlight(context,"Ha sucedido un error","Este libro ya esta en tu lista de deseos o a pasado algo");
+                          }
+                          else{
+                            bookFlight(context,"Nice","Todo ha salido bien, Este libro esta en tu lista de deseos");
+                          }
+                        },
+                      )
+                    )
                   ),
 
                 ],

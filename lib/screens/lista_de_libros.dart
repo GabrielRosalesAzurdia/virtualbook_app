@@ -185,24 +185,24 @@ class _ListaLibrosState extends State<ListaLibros> {
                         padding: EdgeInsets.only(top: 10.0) ,
                         child: Column(
                           children: <Widget>[
-                            RaisedButton(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(24),
-                              ),
-                              padding: EdgeInsets.all(12),
-                              color: Colors.lightBlueAccent,
-                              child: Icon(Icons.remove_red_eye),
-                              onPressed: (){
-                                navigateToBookDetails(
-                                  name: data[index]["name"],
-                                  description: data[index]["description"],
-                                  image: data[index]["image"],
-                                  id: data[index]["book_id"],
-                                  autorId: data[index]["autor_id"],
-                                  cateId: data[index]["category_id"],
-                                  usuarioId: usuarioActual["customer_id"],
-                                );
-                              },
+                            Container(  
+                              decoration: new BoxDecoration(border: new Border.all(color: Colors.black)),
+                              child:RaisedButton(
+                                padding: EdgeInsets.all(12),
+                                color: Colors.white,
+                                child: Icon(Icons.remove_red_eye,color: Colors.black),
+                                onPressed: (){
+                                  navigateToBookDetails(
+                                    name: data[index]["name"],
+                                    description: data[index]["description"],
+                                    image: data[index]["image"],
+                                    id: data[index]["book_id"],
+                                    autorId: data[index]["autor_id"],
+                                    cateId: data[index]["category_id"],
+                                    usuarioId: usuarioActual["customer_id"],
+                                  );
+                                },
+                              )
                             ),
                           ],
                         )

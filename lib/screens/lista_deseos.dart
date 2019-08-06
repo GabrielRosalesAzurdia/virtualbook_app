@@ -112,17 +112,18 @@ class _ListaDeseosState extends State<ListaDeseos> {
                     Padding(padding: EdgeInsets.only(left: 30.0) ,child: Column(
                       children: <Widget>[
 
-                        RaisedButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                          padding: EdgeInsets.all(12),
-                          color: Colors.lightBlueAccent,
-                          child: Icon(Icons.delete),
-                          onPressed: (){
-                            print("preciono eliminar elemento");
-                            deleteElementDeseos(data[index]["lista_deseos_id"]);
-                          },
+                        Container(
+                          decoration: new BoxDecoration(border: new Border.all(color: Colors.black)),
+                          child:RaisedButton(
+                            elevation: 0.0,
+                            padding: EdgeInsets.all(12),
+                            color: Colors.white,
+                            child: Icon(Icons.delete),
+                            onPressed: (){
+                              print("preciono eliminar elemento");
+                              deleteElementDeseos(data[index]["lista_deseos_id"]);
+                            },
+                          )
                         ),
 
                         Padding(
@@ -130,24 +131,25 @@ class _ListaDeseosState extends State<ListaDeseos> {
                           child: null,
                         ),
                         
-                        RaisedButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                          padding: EdgeInsets.all(12),
-                          color: Colors.lightBlueAccent,
-                          child: Icon(Icons.shopping_cart),
-                          onPressed: () async {
-                            print("preciono añadir a lista de rentados");
-                            var resultado = await addToRentados(data[index]["book_id"]);
-                            if(resultado != "Funciono"){
-                              bookFlight(context,"Ha sucedido un error","Este libro ya esta en tu lista de rentados o a has superado el limite de 5 libros");
-                            }
-                            else{
-                              bookFlight(context,"Nice","Todo ha salido bien, Este libro esta en tu lista de Rentados");
-                              getListaDeseos();
-                            }                               
-                          },
+                        Container(
+                          decoration: new BoxDecoration(border: new Border.all(color: Colors.black)),
+                          child:RaisedButton(
+                            elevation: 0.0,
+                            padding: EdgeInsets.all(12),
+                            color: Colors.white,
+                            child: Icon(Icons.shopping_cart),
+                            onPressed: () async {
+                              print("preciono añadir a lista de rentados");
+                              var resultado = await addToRentados(data[index]["book_id"]);
+                              if(resultado != "Funciono"){
+                                bookFlight(context,"Ha sucedido un error","Este libro ya esta en tu lista de rentados o a has superado el limite de 5 libros");
+                              }
+                              else{
+                                bookFlight(context,"Nice","Todo ha salido bien, Este libro esta en tu lista de Rentados");
+                                getListaDeseos();
+                              }                               
+                            },
+                          )
                         ),
                       
                         Padding(
