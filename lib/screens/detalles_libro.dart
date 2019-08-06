@@ -152,15 +152,14 @@ class _LibrosDetailsState extends State<LibrosDetails> {
 
               Padding(padding: EdgeInsets.all(10.0),),
 
-              Row(
+              Container(height: 100,width: 200,  child:Row(
                 children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(left: 50.0, right: 20.0, bottom: 10.0),
-                    child: RaisedButton(
+
+                  Center (
+                    child:RaisedButton(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(24),
                       ),
-                      padding: EdgeInsets.all(12),
                       color: Colors.lightBlueAccent,
                       child: Icon(Icons.shopping_cart),
                       onPressed: ()async{
@@ -176,14 +175,17 @@ class _LibrosDetailsState extends State<LibrosDetails> {
                     ),
                   ),
 
-
                   Padding(
-                    padding: EdgeInsets.only(left: 20.0, right: 50.0, bottom: 10.0),
-                    child: RaisedButton(
+                    padding: EdgeInsets.all(10),
+                    child: null
+                  ),
+
+                  Center(
+                    
+                    child:RaisedButton(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(24),
                       ),
-                      padding: EdgeInsets.all(12),
                       color: Colors.lightBlueAccent,
                       child: Icon(Icons.bookmark),
                       onPressed: ()async{
@@ -200,7 +202,7 @@ class _LibrosDetailsState extends State<LibrosDetails> {
                   ),
 
                 ],
-              ),
+              )),
             ]
           ),
         ),
