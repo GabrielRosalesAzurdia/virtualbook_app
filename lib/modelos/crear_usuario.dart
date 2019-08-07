@@ -5,8 +5,9 @@ class CreateUser {
   final String firstName;
   final String lastName;
   final String country;
- 
-  CreateUser({this.email, this.password1, this.password2, this.firstName,this.lastName,this.country});
+  final image;
+
+  CreateUser({this.email, this.password1, this.password2, this.firstName,this.lastName,this.country,this.image=""});
  
   Map toMap() {
     var map = new Map<String, String>();
@@ -16,6 +17,7 @@ class CreateUser {
     map["first_name"] = firstName;
     map["last_name"] = lastName;
     map["country"] = country;
+    map["image"] = image;
     return map;
   }
 }

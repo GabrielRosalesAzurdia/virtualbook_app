@@ -29,11 +29,9 @@ class _CrearCuentaState extends State<CrearCuenta>{
 
   void piker()async{
     File img = await ImagePicker.pickImage(source: ImageSource.gallery);
-    print(img);
     if(img != null){
-      _image = img;
       setState(() {
-
+        _image = img;
       });
     }
   }
@@ -113,6 +111,7 @@ class _CrearCuentaState extends State<CrearCuenta>{
               padding: EdgeInsets.all(20),
               child: null,
             ),
+
             // RaisedButton(
             //   shape: RoundedRectangleBorder(
             //     borderRadius: BorderRadius.circular(24),
@@ -140,10 +139,12 @@ class _CrearCuentaState extends State<CrearCuenta>{
                   padding: EdgeInsets.all(12),
                   color: Colors.white,
                   onPressed: () async{
+
+                    String base64Image = base64Encode(_image.readAsBytesSync());
                     
                     CreateUser newUser = new CreateUser(
                       password1:passwordController.text, password2: passwordConfirmationController.text, email:emailController.text, 
-                      country:countryController.text, firstName:nameController.text,lastName: lastNameController.text
+                      country:countryController.text, firstName:nameController.text,lastName: lastNameController.text,image:base64Image.toString(),
                     );
                     await createUser(context,"https://virtualbook-backend.herokuapp.com/api/accounts/register/",body: newUser.toMap());
                   },
@@ -167,12 +168,12 @@ class _CrearCuentaState extends State<CrearCuenta>{
 
       var valor = json.decode(response.body);
 
-      if(valor == "False"){
-        bookFlight(context,"La informacion es incorrecta","Porfavor revisa los datos");
-        return "Mal";
-      }else{
+      if(valor == "True"){
         bookFlight(context,"Nice","Ahora tienes una cuenta !!!");
         return "Bien";
+      }else{
+        bookFlight(context,"La informacion es incorrecta","Porfavor revisa los datos");
+        return "Mal";
       }
 
     });
