@@ -17,7 +17,7 @@ class CrearCuenta extends StatefulWidget {
 
 }
 
-class _CrearCuentaState extends State<CrearCuenta>{ 
+class _CrearCuentaState extends State<CrearCuenta>{
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -29,6 +29,9 @@ class _CrearCuentaState extends State<CrearCuenta>{
 
   void piker()async{
     File img = await ImagePicker.pickImage(source: ImageSource.gallery);
+    print("");
+    print(img.uri);
+    print("");
     if(img != null){
       setState(() {
         _image = img;
@@ -41,7 +44,7 @@ class _CrearCuentaState extends State<CrearCuenta>{
     TextStyle textStyle= Theme.of(context).textTheme.title;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Crear cuenta"), 
+        title: Text("Crear cuenta"),
       ),
       body: Container(
         padding: EdgeInsets.all(20),
@@ -121,7 +124,7 @@ class _CrearCuentaState extends State<CrearCuenta>{
             //   color: Colors.lightBlueAccent,
             //   onPressed: () async{
             //     CreateUser newUser = new CreateUser(
-            //       password1:passwordController.text, password2: passwordConfirmationController.text, email:emailController.text, 
+            //       password1:passwordController.text, password2: passwordConfirmationController.text, email:emailController.text,
             //       country:countryController.text, firstName:nameController.text,lastName: lastNameController.text
             //     );
             //     await createUser("https://virtualbook-backend.herokuapp.com/api/accounts/register/",body: newUser.toMap());
@@ -129,7 +132,7 @@ class _CrearCuentaState extends State<CrearCuenta>{
             // ),
 
             Container(
-              padding:EdgeInsets.only(bottom: 20.0), 
+              padding:EdgeInsets.only(bottom: 20.0),
               width: 320.0,
               child: Container(
                 decoration: new BoxDecoration(border: new Border.all(color: Colors.black)),
@@ -140,10 +143,10 @@ class _CrearCuentaState extends State<CrearCuenta>{
                   color: Colors.white,
                   onPressed: () async{
 
-                    String base64Image = base64Encode(_image.readAsBytesSync());
-                    
+                    var base64Image = _image.readAsBytesSync();
+
                     CreateUser newUser = new CreateUser(
-                      password1:passwordController.text, password2: passwordConfirmationController.text, email:emailController.text, 
+                      password1:passwordController.text, password2: passwordConfirmationController.text, email:emailController.text,
                       country:countryController.text, firstName:nameController.text,lastName: lastNameController.text,image:base64Image.toString(),
                     );
                     await createUser(context,"https://virtualbook-backend.herokuapp.com/api/accounts/register/",body: newUser.toMap());
@@ -159,24 +162,44 @@ class _CrearCuentaState extends State<CrearCuenta>{
   }
 
   Future<String> createUser(BuildContext context,String url, {Map body}) async {
-    return http.put(url, body: body).then((http.Response response){
-      final int statusCode = response.statusCode;
-  
-      if (statusCode < 200 || statusCode > 400 || json == null) {
-        throw new Exception("Error while fetching data");
-      }
 
-      var valor = json.decode(response.body);
+  var request = new http.MultipartRequest("PUT", Uri.parse(url));
+  request.fields['email'] = 'someone@somewhere.com';
+  request.fields["password1"] = "123";
+  request.fields["password2"] = "123";
+  request.fields["first_name"] = "Gabriel";
+  request.fields["last_name"] = "Rosales";
+  // var pic = await http.MultipartFile.fromPath("file_field", _image.toString(),filename: "image");
+  // request.files.add(pic);
+  request.files.add(new http.MultipartFile.fromBytes('image', await File.fromUri(_image.uri).readAsBytes(),
+  // contentType: new MediaType('image', 'jpeg')
+  filename: "Gabriel-image"));
+  request.send().then((response) async{
+   print(response.statusCode);
+   var responseData = await response.stream.toBytes();
+   var responseString = String.fromCharCodes(responseData);
+   print(responseString);
+  });
 
-      if(valor == "True"){
-        bookFlight(context,"Nice","Ahora tienes una cuenta !!!");
-        return "Bien";
-      }else{
-        bookFlight(context,"La informacion es incorrecta","Porfavor revisa los datos");
-        return "Mal";
-      }
 
-    });
+  //   return http.put(url, body: body).then((http.Response response){
+  //     final int statusCode = response.statusCode;
+
+  //     if (statusCode < 200 || statusCode > 400 || json == null) {
+  //       throw new Exception("Error while fetching data");
+  //     }
+
+  //     var valor = json.decode(response.body);
+  //     print(valor);
+  //     if(valor == "True"){
+  //       bookFlight(context,"Nice","Ahora tienes una cuenta !!!");
+  //       return "Bien";
+  //     }else{
+  //       bookFlight(context,"La informacion es incorrecta","Porfavor revisa los datos");
+  //       return "Mal";
+  //     }
+
+  //   });
   }
 
 }
