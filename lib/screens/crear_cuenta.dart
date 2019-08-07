@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'dart:io';
+import 'package:dio/dio.dart';
 
 class CrearCuenta extends StatefulWidget {
 
@@ -29,9 +30,6 @@ class _CrearCuentaState extends State<CrearCuenta>{
 
   void piker()async{
     File img = await ImagePicker.pickImage(source: ImageSource.gallery);
-    print("");
-    print(img.uri);
-    print("");
     if(img != null){
       setState(() {
         _image = img;
@@ -142,14 +140,18 @@ class _CrearCuentaState extends State<CrearCuenta>{
                   padding: EdgeInsets.all(12),
                   color: Colors.white,
                   onPressed: () async{
-
-                    var base64Image = _image.readAsBytesSync();
-
-                    CreateUser newUser = new CreateUser(
-                      password1:passwordController.text, password2: passwordConfirmationController.text, email:emailController.text,
-                      country:countryController.text, firstName:nameController.text,lastName: lastNameController.text,image:base64Image.toString(),
-                    );
-                    await createUser(context,"https://virtualbook-backend.herokuapp.com/api/accounts/register/",body: newUser.toMap());
+                    if(emailController.text==""||passwordController.text==""||passwordConfirmationController.text==""||
+                      nameController.text==""||lastNameController.text==""|| countryController.text=="" || _image == null
+                    ){
+                      bookFlight(context,"La informacion es incorrecta","Porfavor revisa los datos");
+                    }
+                    else{
+                      CreateUser newUser = new CreateUser(
+                        password1:passwordController.text, password2: passwordConfirmationController.text, email:emailController.text,
+                        country:countryController.text, firstName:nameController.text,lastName: lastNameController.text,image:_image.path,
+                      );
+                      await createUser(context,"https://virtualbook-backend.herokuapp.com/api/accounts/register/",body: newUser.toMap());
+                    }
                   },
                 )
               )
@@ -163,43 +165,31 @@ class _CrearCuentaState extends State<CrearCuenta>{
 
   Future<String> createUser(BuildContext context,String url, {Map body}) async {
 
-  var request = new http.MultipartRequest("PUT", Uri.parse(url));
-  request.fields['email'] = 'someone@somewhere.com';
-  request.fields["password1"] = "123";
-  request.fields["password2"] = "123";
-  request.fields["first_name"] = "Gabriel";
-  request.fields["last_name"] = "Rosales";
-  // var pic = await http.MultipartFile.fromPath("file_field", _image.toString(),filename: "image");
-  // request.files.add(pic);
-  request.files.add(new http.MultipartFile.fromBytes('image', await File.fromUri(_image.uri).readAsBytes(),
-  // contentType: new MediaType('image', 'jpeg')
-  filename: "Gabriel-image"));
-  request.send().then((response) async{
-   print(response.statusCode);
-   var responseData = await response.stream.toBytes();
-   var responseString = String.fromCharCodes(responseData);
-   print(responseString);
+  try{
+  FormData formData = new FormData.from({
+    "email": body["email"],
+    "password1": body["password1"],
+    "password2": body["password2"],
+    "first_name": body["first_name"],
+    "last_name": body["last_name"], 
+    "country": body["country"],
+    "image": new UploadFileInfo(new File(body["image"]), "upload1.jpg")
   });
+  var response = await Dio().put(url, data: formData);
+  print(response);
+    print(response);
+    if(response.toString() == "True"){
+      bookFlight(context,"Nice","Ahora tienes una cuenta !!!");
+      return "Bien";
+    }else{
+      bookFlight(context,"La informacion es incorrecta","Porfavor revisa los datos");
+      return "Mal";
+    }
+  }catch(e){
+    print(e);
+  }
 
-
-  //   return http.put(url, body: body).then((http.Response response){
-  //     final int statusCode = response.statusCode;
-
-  //     if (statusCode < 200 || statusCode > 400 || json == null) {
-  //       throw new Exception("Error while fetching data");
-  //     }
-
-  //     var valor = json.decode(response.body);
-  //     print(valor);
-  //     if(valor == "True"){
-  //       bookFlight(context,"Nice","Ahora tienes una cuenta !!!");
-  //       return "Bien";
-  //     }else{
-  //       bookFlight(context,"La informacion es incorrecta","Porfavor revisa los datos");
-  //       return "Mal";
-  //     }
-
-  //   });
+  return "pas";
   }
 
 }
