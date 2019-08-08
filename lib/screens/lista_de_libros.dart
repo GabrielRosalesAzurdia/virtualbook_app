@@ -1,6 +1,7 @@
 import 'package:biblioteca_virtualbook_app/modelos/token.dart';
 import 'package:biblioteca_virtualbook_app/screens/lista_deseos.dart';
 import 'package:biblioteca_virtualbook_app/screens/lista_rentados.dart';
+import 'package:biblioteca_virtualbook_app/screens/usuario.dart';
 import 'package:biblioteca_virtualbook_app/utils/database_helper_token.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -76,6 +77,12 @@ class _ListaLibrosState extends State<ListaLibros> {
       } ));
     }
 
+    void navigateToUsserScreen(name,email,imagen,usuarioId)async{
+      await Navigator.push(context, MaterialPageRoute(builder: (context){
+        return UsuarioScreen(name,imagen,email,usuarioId);
+      } ));
+    }
+
     return Scaffold(
       appBar: AppBar(title: Text("libros")),
       drawer: Drawer(
@@ -85,15 +92,30 @@ class _ListaLibrosState extends State<ListaLibros> {
               accountName: usuarioActual != null ? Text(usuarioActual["first_name"]) : Text(""),
               accountEmail: usuarioActual != null ? Text(usuarioActual["email"]) : Text(""),
               currentAccountPicture: CircleAvatar(
-                backgroundColor:
-                    Theme.of(context).platform == TargetPlatform.iOS
-                        ? Colors.blue
-                        : Colors.white,
-                child: usuarioActual != null ? Text(
-                   usuarioActual["first_name"][0],
-                  style: TextStyle(fontSize: 40.0),
-                ): Text(""),
+                backgroundColor: Colors.white,
+                backgroundImage: null,
+                child:new Container(
+                  width: 190.0,
+                  height: 190.0,
+                  decoration: new BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: new DecorationImage(
+                      fit: BoxFit.cover,
+                       image: usuarioActual != null ? new NetworkImage(usuarioActual["image"]) : new NetworkImage("https://i.imgur.com/BoN9kdC.png"),
+                    )
+                  )
+                ),
+                // Text(
+                //   usuarioActual["first_name"][0],
+                //   style: TextStyle(fontSize: 40.0),
+                // )
               ),
+              onDetailsPressed: (){
+                print("preciono el details");
+                if(usuarioActual != null){
+                  navigateToUsserScreen(usuarioActual["first_name"], usuarioActual["email"],usuarioActual["image"],usuarioActual["customer_id"]);
+                }
+              },
             ),
             ListTile(
               title: Text("Lista de deseos"),
@@ -109,6 +131,7 @@ class _ListaLibrosState extends State<ListaLibros> {
                 navigateToListaRentados(usuarioActual["customer_id"]);
               },
             ),
+
           ],
         ),
       ),

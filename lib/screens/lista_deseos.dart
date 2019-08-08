@@ -33,10 +33,14 @@ class _ListaDeseosState extends State<ListaDeseos> {
     await getToken().then((value) async {
       var token = value;
       var res = await http.get(Uri.encodeFull("https://virtualbook-backend.herokuapp.com/api/getLista/deseos/"+  usuarioId.toString() + "/"),headers: {"Authorization":"JWT "+token.token} );
-      setState(() {
-        var resBody = json.decode(res.body);
-        data = resBody;
-      });
+      try{
+        setState(() {
+          var resBody = json.decode(res.body);
+          data = resBody;
+        });
+      }catch(e){
+        print("ijole");
+      }
       return "Success";
     });
   }

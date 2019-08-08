@@ -32,10 +32,14 @@ class _ListaRentadosState extends State<ListaRentados> {
     await getToken().then((value) async {
       var token = value;
       var res = await http.get(Uri.encodeFull("https://virtualbook-backend.herokuapp.com/api/getLista/renta/"+  usuarioId.toString() + "/"),headers: {"Authorization":"JWT "+token.token} );
-      setState(() {
-        var resBody = json.decode(res.body);
-        data = resBody;
-      });
+      try{
+        setState(() {
+          var resBody = json.decode(res.body);
+          data = resBody;
+        });
+      }catch(e){
+        print("ijole");
+      }
       return "Success";
     });
   }
